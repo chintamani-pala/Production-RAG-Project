@@ -110,21 +110,21 @@ cp .env.example .env
 
 ### Configuration Details
 
-| Variable | Type | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `LITELLM_PRIMARY_CHAT_MODEL` | `str` | `nvidia_nim/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | LiteLLM model identifier for the primary LLM |
-| `LITELLM_FALLBACK_CHAT_MODEL` | `str` | `nvidia_nim/deepseek-ai/deepseek-v4-flash-0731` | LiteLLM model identifier used when the primary model fails |
-| `LITELLM_CHAT_API_KEY` | `str` | **Required** | API key for the chat model provider (e.g., NVIDIA NIM, OpenAI, Anthropic) |
-| `LITELLM_EMBEDDING_MODEL` | `str` | `nvidia_nim/nvidia/nemotron-3-embed-1b` | LiteLLM embedding model identifier |
-| `LITELLM_EMBEDDING_API_KEY` | `str` | **Required** | API key for the embeddings model provider |
-| `LANGCHAIN_TRACING_V2` | `bool`| `false` | Enable or disable LangSmith tracing (`true` / `false`) |
-| `LANGCHAIN_API_KEY` | `str` | **Required** | LangSmith API key (required if tracing is enabled) |
-| `LANGCHAIN_PROJECT` | `str` | `production-api-project` | Project name displayed in the LangSmith dashboard |
-| `APP_ENV` | `str` | `development` | Environment mode (`development`, `staging`, `production`) |
-| `LOG_LEVEL` | `str` | `INFO` | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
-| `RATE_LIMIT` | `str` | `20/minute` | Rate limit format parsed by `slowapi` (e.g., `20/minute`, `100/hour`) |
-| `CACHE_TTL_SECONDS` | `int` | `300` | In-memory cache time-to-live in seconds (e.g., 300 = 5 min) |
-| `MAX_RETRIES` | `int` | `3` | Maximum retry attempts inside the LangGraph state machine before returning a graceful error |
+| Variable                      |  Type  | Default                                                    | Description                                                                                 |
+| :---------------------------- | :----: | :--------------------------------------------------------- | :------------------------------------------------------------------------------------------ |
+| `LITELLM_PRIMARY_CHAT_MODEL`  | `str`  | `nvidia_nim/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | LiteLLM model identifier for the primary LLM                                                |
+| `LITELLM_FALLBACK_CHAT_MODEL` | `str`  | `nvidia_nim/deepseek-ai/deepseek-v4-flash-0731`            | LiteLLM model identifier used when the primary model fails                                  |
+| `LITELLM_CHAT_API_KEY`        | `str`  | **Required**                                               | API key for the chat model provider (e.g., NVIDIA NIM, OpenAI, Anthropic)                   |
+| `LITELLM_EMBEDDING_MODEL`     | `str`  | `nvidia_nim/nvidia/nemotron-3-embed-1b`                    | LiteLLM embedding model identifier                                                          |
+| `LITELLM_EMBEDDING_API_KEY`   | `str`  | **Required**                                               | API key for the embeddings model provider                                                   |
+| `LANGCHAIN_TRACING_V2`        | `bool` | `false`                                                    | Enable or disable LangSmith tracing (`true` / `false`)                                      |
+| `LANGCHAIN_API_KEY`           | `str`  | **Required**                                               | LangSmith API key (required if tracing is enabled)                                          |
+| `LANGCHAIN_PROJECT`           | `str`  | `production-api-project`                                   | Project name displayed in the LangSmith dashboard                                           |
+| `APP_ENV`                     | `str`  | `development`                                              | Environment mode (`development`, `staging`, `production`)                                   |
+| `LOG_LEVEL`                   | `str`  | `INFO`                                                     | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`)                                     |
+| `RATE_LIMIT`                  | `str`  | `20/minute`                                                | Rate limit format parsed by `slowapi` (e.g., `20/minute`, `100/hour`)                       |
+| `CACHE_TTL_SECONDS`           | `int`  | `300`                                                      | In-memory cache time-to-live in seconds (e.g., 300 = 5 min)                                 |
+| `MAX_RETRIES`                 | `int`  | `3`                                                        | Maximum retry attempts inside the LangGraph state machine before returning a graceful error |
 
 ---
 
@@ -150,7 +150,7 @@ This project uses [**`uv`**](https://docs.astral.sh/uv/), the extremely fast Pyt
 Clone the repository and navigate to the project directory:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/chintamani-pala/Production-RAG-Project.git
 cd production-api
 ```
 
@@ -204,6 +204,7 @@ uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 Sends a prompt to the AI agent.
 
 #### Request
+
 ```bash
 curl -X POST http://127.0.0.1:8000/chat \
   -H "Content-Type: application/json" \
@@ -214,6 +215,7 @@ curl -X POST http://127.0.0.1:8000/chat \
 ```
 
 #### Response (`200 OK`)
+
 ```json
 {
   "response": "Microservices is an architectural approach where an application is arranged as a collection of loosely coupled, independently deployable services...",
@@ -227,6 +229,7 @@ curl -X POST http://127.0.0.1:8000/chat \
 ```
 
 > **Note on PII**: If a user submits sensitive information (such as `contact me at user@example.com`), the API masks it before sending it to the model and includes notes in `security_notes`:
+>
 > ```json
 > {
 >   "security_notes": ["[PII Masked] email detected and masked"]
@@ -240,11 +243,13 @@ curl -X POST http://127.0.0.1:8000/chat \
 Returns component health status for Docker and Kubernetes health probes.
 
 #### Request
+
 ```bash
 curl -X GET http://127.0.0.1:8000/health
 ```
 
 #### Response (`200 OK`)
+
 ```json
 {
   "status": "healthy",
@@ -265,11 +270,13 @@ curl -X GET http://127.0.0.1:8000/health
 Provides aggregated application health, throughput, and cache efficiency statistics.
 
 #### Request
+
 ```bash
 curl -X GET http://127.0.0.1:8000/metrics
 ```
 
 #### Response (`200 OK`)
+
 ```json
 {
   "total_requests": 42,
@@ -289,11 +296,13 @@ curl -X GET http://127.0.0.1:8000/metrics
 Inspects the in-memory cache size, hit/miss ratios, and TTL configuration.
 
 #### Request
+
 ```bash
 curl -X GET http://127.0.0.1:8000/cache/stats
 ```
 
 #### Response (`200 OK`)
+
 ```json
 {
   "total_entries": 16,
@@ -308,12 +317,12 @@ curl -X GET http://127.0.0.1:8000/cache/stats
 
 ## 🛡️ Security Features in Action
 
-| Threat | Handling Strategy | Status Code |
-| :--- | :--- | :---: |
-| **Prompt Injection** (e.g. `ignore all previous instructions`) | Regex pattern matching + rejection | `400 Bad Request` |
-| **PII Leakage** (Email, Credit Card, SSN, Phone, IP) | Bidirectional regex replacement with `[REDACTED_*]` tags | `200 OK` (Masked) |
-| **Volumetric Abuse / DoS** | IP-level sliding window rate limiting via `slowapi` | `429 Too Many Requests` |
-| **Model Outage / 5xx from Provider** | Automatic failover to secondary fallback LLM | `200 OK` (Fallback) |
+| Threat                                                         | Handling Strategy                                        |       Status Code       |
+| :------------------------------------------------------------- | :------------------------------------------------------- | :---------------------: |
+| **Prompt Injection** (e.g. `ignore all previous instructions`) | Regex pattern matching + rejection                       |    `400 Bad Request`    |
+| **PII Leakage** (Email, Credit Card, SSN, Phone, IP)           | Bidirectional regex replacement with `[REDACTED_*]` tags |    `200 OK` (Masked)    |
+| **Volumetric Abuse / DoS**                                     | IP-level sliding window rate limiting via `slowapi`      | `429 Too Many Requests` |
+| **Model Outage / 5xx from Provider**                           | Automatic failover to secondary fallback LLM             |   `200 OK` (Fallback)   |
 
 ---
 
