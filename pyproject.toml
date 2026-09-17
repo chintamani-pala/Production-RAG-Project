@@ -1,0 +1,32 @@
+[project]
+name = "production-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Chintamani", email = "chintamanipala67@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.141.1",
+    "langchain>=1.4.0",
+    "langchain-litellm",
+    "langgraph>=1.2.11",
+    "langsmith>=0.12.4",
+    "litellm>=1.101.0",
+    "pydantic-settings>=2.15.0",
+    "python-dotenv>=1.2.3",
+    "slowapi>=0.1.10",
+    "uvicorn>=0.53.0",
+]
+
+[project.scripts]
+production-api = "app.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pyrefly]
+project_includes = []
+

@@ -1,0 +1,10 @@
+langchain
+langgraph
+langsmith
+python-dotenv
+litellm
+fastapi
+uvicorn 
+slowapi
+pydantic-settings
+langchain_litellm
