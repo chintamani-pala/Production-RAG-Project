@@ -81,7 +81,7 @@ Client Request (POST /chat)
 ## 📁 Project Structure
 
 ```text
-production-api/
+Production-RAG-Project/
 ├── app/
 │   ├── __init__.py
 │   ├── agent.py         # LangGraph state graph with primary/fallback fallback logic
@@ -119,7 +119,7 @@ cp .env.example .env
 | `LITELLM_EMBEDDING_API_KEY`   | `str`  | **Required**                                               | API key for the embeddings model provider                                                   |
 | `LANGCHAIN_TRACING_V2`        | `bool` | `false`                                                    | Enable or disable LangSmith tracing (`true` / `false`)                                      |
 | `LANGCHAIN_API_KEY`           | `str`  | **Required**                                               | LangSmith API key (required if tracing is enabled)                                          |
-| `LANGCHAIN_PROJECT`           | `str`  | `production-api-project`                                   | Project name displayed in the LangSmith dashboard                                           |
+| `LANGCHAIN_PROJECT`           | `str`  | `Production-RAG-Project`                                   | Project name displayed in the LangSmith dashboard                                           |
 | `APP_ENV`                     | `str`  | `development`                                              | Environment mode (`development`, `staging`, `production`)                                   |
 | `LOG_LEVEL`                   | `str`  | `INFO`                                                     | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`)                                     |
 | `RATE_LIMIT`                  | `str`  | `20/minute`                                                | Rate limit format parsed by `slowapi` (e.g., `20/minute`, `100/hour`)                       |
@@ -151,7 +151,7 @@ Clone the repository and navigate to the project directory:
 
 ```bash
 git clone https://github.com/chintamani-pala/Production-RAG-Project.git
-cd production-api
+cd Production-RAG-Project
 ```
 
 Install all dependencies from the lockfile and create the virtual environment:
