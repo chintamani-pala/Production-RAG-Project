@@ -1,0 +1,40 @@
+# Render.yaml - Infrastructure as Code for Render Deployment
+services:
+  - type: web
+    name: Production-langchain-api
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: RATE_LIMIT
+        value: 20/minute
+      - key: CACHE_TTL_SECONDS
+        value: "300"
+      - key: MAX_RETRIES
+        value: "3"
+      - key: LITELLM_PRIMARY_CHAT_MODEL
+        sync: false
+      - key: LITELLM_FALLBACK_CHAT_MODEL
+        sync: false
+      - key: LITELLM_CHAT_API_KEY
+        sync: false
+      - key: LITELLM_EMBEDDING_MODEL_NAME
+        sync: false
+      - key: LITELLM_EMBEDDING_API_KEY
+        sync: false
+      - key: LANGCHAIN_TRACING_V2
+        value: "true"
+      - key: LANGCHAIN_API_KEY
+        sync: false
+      - key: LANGCHAIN_PROJECT
+        value: production-api
+    healthCheckPath: /health
+    autoDeploy: true
